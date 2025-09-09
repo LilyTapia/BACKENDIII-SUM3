@@ -1,0 +1,13 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: bff-web
+legacy:
+  api:
+    url: http://localhost:8090
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

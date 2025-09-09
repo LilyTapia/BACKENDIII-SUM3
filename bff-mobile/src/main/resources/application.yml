@@ -1,0 +1,13 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: bff-mobile
+legacy:
+  api:
+    url: http://localhost:8090
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
