@@ -6,6 +6,10 @@ server:
     key-store-password: password
     key-store-type: PKCS12
     key-alias: bff
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/plain,text/xml,text/html
+    min-response-size: 1024
 
 spring:
   application:

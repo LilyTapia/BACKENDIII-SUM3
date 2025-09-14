@@ -5,4 +5,10 @@ import cl.bancoxyz.bff.bffweb.dto.*; import cl.bancoxyz.bff.bffweb.client.Legacy
   public List<TransactionDTO> transactions(String accountId,String from,String to){ return legacy.transactions(accountId, from, to); }
   public List<InterestDTO> interests(String accountId,Integer month){ return legacy.interests(accountId, month); }
   public List<AnnualAccountDTO> annual(String accountId,String year){ return legacy.annual(accountId, year); }
+  public double balance(String accountId){
+    var annuals = legacy.annual(accountId, null);
+    java.util.Optional<AnnualAccountDTO> latest = annuals.stream().max(java.util.Comparator.comparingInt(a->{ try { return Integer.parseInt(a.getYear()); } catch(Exception e){ return Integer.MIN_VALUE; }}));
+    if(latest.isPresent()) return latest.get().getClosingBalance();
+    return legacy.transactions(accountId, null, null).stream().mapToDouble(TransactionDTO::getAmount).sum();
+  }
 }

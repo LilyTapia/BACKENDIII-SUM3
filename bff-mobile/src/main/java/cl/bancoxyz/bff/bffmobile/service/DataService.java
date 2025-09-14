@@ -24,4 +24,20 @@ public class DataService {
   public List<AnnualAccountDTO> annual(String accountId, String year) {
     return legacy.annual(accountId, year);
   }
+
+  public double balance(String accountId) {
+    // Prefer latest annual closing balance if available
+    var annuals = legacy.annual(accountId, null);
+    Optional<AnnualAccountDTO> latest = annuals.stream()
+        .max(Comparator.comparingInt(a -> {
+          try { return Integer.parseInt(a.getYear()); } catch (Exception e) { return Integer.MIN_VALUE; }
+        }));
+    if (latest.isPresent()) {
+      return latest.get().getClosingBalance();
+    }
+    // Fallback: sum all transactions
+    return legacy.transactions(accountId, null, null).stream()
+        .mapToDouble(TransactionDTO::getAmount)
+        .sum();
+  }
 }
