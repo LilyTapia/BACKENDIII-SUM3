@@ -1,0 +1,8 @@
+account_id,date,description,type,amount
+123,2024-12-30,Depósito,saving,1000.00
+123,2025-01-05,Compra,expense,-150.25
+456,2025-01-10,Transferencia,transfer,200.00
+ACC-001,2025-09-05,Compra supermercado,expense,-45.90
+ACC-001,2025-09-12,Depósito nómina,saving,950.00
+ACC-001,2025-09-18,Transferencia recibida,transfer,120.00
+ACC-001,2025/09/25,Servicio streaming,expense,-9.99

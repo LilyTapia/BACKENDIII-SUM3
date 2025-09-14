@@ -18,20 +18,21 @@ public class LegacyController {
   }
 
   @GetMapping("/transactions")
-  public List<TransactionDTO> transactions(@RequestParam(required = false) String accountId,
-      @RequestParam(required = false) String from, @RequestParam(required = false) String to) throws CsvValidationException {
+  public List<TransactionDTO> transactions(@RequestParam(name = "accountId", required = false) String accountId,
+      @RequestParam(name = "from", required = false) String from,
+      @RequestParam(name = "to", required = false) String to) {
     return service.transactions(accountId, from, to);
   }
 
   @GetMapping("/interests")
-  public List<InterestDTO> interests(@RequestParam(required = false) String accountId,
-      @RequestParam(required = false) Integer month) throws CsvValidationException {
+  public List<InterestDTO> interests(@RequestParam(name = "accountId", required = false) String accountId,
+      @RequestParam(name = "month", required = false) Integer month) {
     return service.interests(accountId, month);
   }
 
   @GetMapping("/annual")
-  public List<AnnualAccountDTO> annual(@RequestParam(required = false) String accountId,
-      @RequestParam(required = false) String year) throws CsvValidationException {
+  public List<AnnualAccountDTO> annual(@RequestParam(name = "accountId", required = false) String accountId,
+      @RequestParam(name = "year", required = false) String year) {
     return service.annual(accountId, year);
   }
 }

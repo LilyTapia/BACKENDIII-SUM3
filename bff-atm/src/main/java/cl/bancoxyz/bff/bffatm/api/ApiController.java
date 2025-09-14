@@ -19,11 +19,11 @@ public class ApiController {
 
   @GetMapping("/accounts/{accountId}/transactions")
   @PreAuthorize("hasRole('USER')")
-  public PageDto<TransactionSlimDto> transactions(@PathVariable String accountId,
-                                                  @RequestParam(required = false) String from,
-                                                  @RequestParam(required = false) String to,
-                                                  @RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "20") int size) {
+  public PageDto<TransactionSlimDto> transactions(@PathVariable("accountId") String accountId,
+                                                  @RequestParam(name = "from", required = false) String from,
+                                                  @RequestParam(name = "to", required = false) String to,
+                                                  @RequestParam(name = "page", defaultValue = "0") int page,
+                                                  @RequestParam(name = "size", defaultValue = "20") int size) {
     var all = service.transactions(accountId, from, to);
     int fromIdx = Math.min(page * size, all.size());
     int toIdx = Math.min(fromIdx + size, all.size());
@@ -35,13 +35,15 @@ public class ApiController {
 
   @GetMapping("/accounts/{accountId}/interests")
   @PreAuthorize("hasRole('USER')")
-  public List<InterestDTO> interests(@PathVariable String accountId, @RequestParam(required = false) Integer month) {
+  public List<InterestDTO> interests(@PathVariable("accountId") String accountId,
+                                     @RequestParam(name = "month", required = false) Integer month) {
     return service.interests(accountId, month);
   }
 
   @GetMapping("/accounts/{accountId}/annual")
   @PreAuthorize("hasRole('USER')")
-  public List<AnnualAccountDTO> annual(@PathVariable String accountId, @RequestParam(required = false) String year) {
+  public List<AnnualAccountDTO> annual(@PathVariable("accountId") String accountId,
+                                       @RequestParam(name = "year", required = false) String year) {
     return service.annual(accountId, year);
   }
 

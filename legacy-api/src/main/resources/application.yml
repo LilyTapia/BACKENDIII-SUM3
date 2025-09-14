@@ -1,13 +1,19 @@
 server:
   port: 8090
+
 spring:
   application:
     name: legacy-api
+
 legacy:
   data:
     baseUrl: https://raw.githubusercontent.com/KariVillagran/bank_legacy_data/main/data
+
 management:
   endpoints:
     web:
       exposure:
         include: health,info
+  endpoint:
+    health:
+      show-details: always
