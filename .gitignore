@@ -1,0 +1,6 @@
+server.log
+server.pid
+.DS_Store
+/target/
+**/*.log
+**/*.pid
