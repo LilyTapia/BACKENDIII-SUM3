@@ -145,13 +145,6 @@ Usa los tokens con `Authorization: Bearer <token>` en cada solicitud protegida.
   curl http://localhost:8550/analytics/summary/account/123/latest
   ```
 
-## Evidencia sugerida para la entrega
-1. `docker compose ps` o captura del stack mostrando los contenedores activos.
-2. Salida de `curl -u bff-web-client:bff-web-secret -d 'grant_type=client_credentials' --data-urlencode 'scope=bff.web.read' http://localhost:9000/oauth2/token` (idealmente formateada con `jq`) para evidenciar la emisión del token y los scopes.
-3. `curl http://localhost:8888/bff-web.yml` resaltando propiedades externas (Kafka, issuer, fallback).
-4. Dashboard de Eureka con los servicios registrados.
-5. Ejecución exitosa del resumen Web (Bearer token) y captura del fallback al detener `legacy-api`.
-6. Mensaje del `analytics-service` atendiendo un request asíncrono (requestId y respuesta) o visualización del evento en Kafka UI (`http://localhost:8080`).
 
 ## Notas
 - Los BFF consumen `legacy-api` vía Eureka; para una URL fija ajusta `LegacyApiClient` o define `LEGACY_API_URL`.
