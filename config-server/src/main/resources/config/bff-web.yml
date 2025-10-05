@@ -1,0 +1,38 @@
+bff:
+  web:
+    fallback-message: "Servicio temporalmente no disponible. Intente mas tarde."
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      legacyApi:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 2
+  retry:
+    instances:
+      legacyApi:
+        maxAttempts: 3
+        waitDuration: 500ms
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 3000
+        loggerLevel: basic
+
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    properties:
+      spring.json.add.type.headers: false
+
+kafka:
+  topics:
+    summary-request: account.summary.request

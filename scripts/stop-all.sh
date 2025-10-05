@@ -13,12 +13,15 @@ stop_module() {
     if ps -p "$pid" >/dev/null 2>&1; then
       echo "[stop] $name (PID $pid)"
       kill "$pid" || true
-      # espera a que termine
-      for i in {1..10}; do
+      for _ in {1..10}; do
         sleep 1
         ps -p "$pid" >/dev/null 2>&1 || break
       done
-      ps -p "$pid" >/dev/null 2>&1 && echo "[warn] $name aún vivo, intenta 'kill -9 $pid'" || echo "[ok] $name detenido"
+      if ps -p "$pid" >/dev/null 2>&1; then
+        echo "[warn] $name aún vivo, intenta 'kill -9 $pid'"
+      else
+        echo "[ok] $name detenido"
+      fi
     else
       echo "[info] $name no está corriendo"
     fi
@@ -31,7 +34,9 @@ stop_module() {
 stop_module bff-atm "bff-atm"
 stop_module bff-mobile "bff-mobile"
 stop_module bff-web "bff-web"
+stop_module analytics-service "analytics-service"
 stop_module legacy-api "legacy-api"
+stop_module discovery-server "discovery-server"
+stop_module config-server "config-server"
 
 echo "Listo."
-

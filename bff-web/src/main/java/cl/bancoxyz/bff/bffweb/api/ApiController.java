@@ -2,18 +2,20 @@ package cl.bancoxyz.bff.bffweb.api;
 
 import cl.bancoxyz.bff.bffweb.dto.*;
 import cl.bancoxyz.bff.bffweb.service.DataService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.security.access.prepost.PreAuthorize;
+import cl.bancoxyz.bff.bffweb.service.SummaryEventPublisher;
 import java.util.*;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+@lombok.RequiredArgsConstructor
 
 @RestController
 @RequestMapping("/api/web")
 public class ApiController {
   private final DataService service;
-
-  public ApiController(DataService s) {
-    this.service = s;
-  }
+  private final SummaryEventPublisher eventPublisher;
 
   @GetMapping("/accounts/{accountId}/transactions")
   @PreAuthorize("hasRole('USER')")
@@ -58,7 +60,22 @@ public class ApiController {
     return new AccountWebDto(accountId, Math.round(balance * 100.0) / 100.0, items);
   }
 
+  @PostMapping("/accounts/{accountId}/summary/async")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<AsyncSummaryResponse> summaryAsync(
+      @PathVariable("accountId") String accountId,
+      @Valid @RequestBody(required = false) SummaryRequestDto request) {
+    SummaryRequestDto payload = request == null ? new SummaryRequestDto() : request;
+    String requestId = eventPublisher.publish(accountId,
+        emptyToNull(payload.getFrom()), emptyToNull(payload.getTo()), "WEB");
+    return ResponseEntity.accepted().body(new AsyncSummaryResponse(requestId, "accepted"));
+  }
+
   @GetMapping("/admin/metrics")
   @PreAuthorize("hasRole('ADMIN')")
   public String metrics() { return "solo admin"; }
+
+  private String emptyToNull(String value) {
+    return (value == null || value.isBlank()) ? null : value;
+  }
 }

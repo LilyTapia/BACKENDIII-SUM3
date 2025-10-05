@@ -1,0 +1,17 @@
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: analytics-service
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.value.default.type: cl.bancoxyz.analytics.event.AccountSummaryRequestEvent
+        spring.json.trusted.packages: "*"
+    listener:
+      ack-mode: record
+
+kafka:
+  topics:
+    summary-request: account.summary.request
