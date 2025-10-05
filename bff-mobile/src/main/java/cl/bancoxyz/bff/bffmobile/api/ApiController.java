@@ -18,7 +18,7 @@ public class ApiController {
   }
 
   @GetMapping("/accounts/{accountId}/transactions")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.mobile.read')")
   public PageDto<TransactionSlimDto> transactions(@PathVariable("accountId") String accountId,
                                                   @RequestParam(name = "from", required = false) String from,
                                                   @RequestParam(name = "to", required = false) String to,
@@ -34,27 +34,27 @@ public class ApiController {
   }
 
   @GetMapping("/accounts/{accountId}/interests")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.mobile.read')")
   public List<InterestDTO> interests(@PathVariable("accountId") String accountId,
                                      @RequestParam(name = "month", required = false) Integer month) {
     return service.interests(accountId, month);
   }
 
   @GetMapping("/accounts/{accountId}/annual")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.mobile.read')")
   public List<AnnualAccountDTO> annual(@PathVariable("accountId") String accountId,
                                        @RequestParam(name = "year", required = false) String year) {
     return service.annual(accountId, year);
   }
 
   @GetMapping("/accounts/{accountId}/summary")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.mobile.read')")
   public AccountMobileDto summary(@PathVariable("accountId") String accountId) {
     double balance = service.balance(accountId);
     return new AccountMobileDto(accountId, Math.round(balance * 100.0) / 100.0);
   }
 
   @GetMapping("/admin/metrics")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.mobile.admin')")
   public String metrics() { return "solo admin"; }
 }

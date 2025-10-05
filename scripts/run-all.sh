@@ -31,6 +31,7 @@ start_module() {
 }
 
 start_module config-server "config-server"
+start_module auth-server "auth-server"
 start_module discovery-server "discovery-server"
 start_module legacy-api "legacy-api"
 start_module analytics-service "analytics-service"
@@ -39,7 +40,7 @@ start_module bff-mobile "bff-mobile"
 start_module bff-atm "bff-atm"
 
 echo "Listo. PIDs:"
-for m in config-server discovery-server legacy-api analytics-service bff-web bff-mobile bff-atm; do
+for m in config-server auth-server discovery-server legacy-api analytics-service bff-web bff-mobile bff-atm; do
   if [[ -f "$ROOT_DIR/$m/server.pid" ]]; then
     printf "%-16s %s\n" "$m:" "$(cat "$ROOT_DIR/$m/server.pid")"
   fi

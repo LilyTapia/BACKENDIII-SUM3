@@ -25,6 +25,12 @@ feign:
         loggerLevel: basic
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_SERVER_ISSUER:http://localhost:9000}
+          jwk-set-uri: ${AUTH_SERVER_JWKS_URI:${AUTH_SERVER_ISSUER:http://localhost:9000}/oauth2/jwks}
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:

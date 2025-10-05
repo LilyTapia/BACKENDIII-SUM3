@@ -37,6 +37,7 @@ stop_module bff-web "bff-web"
 stop_module analytics-service "analytics-service"
 stop_module legacy-api "legacy-api"
 stop_module discovery-server "discovery-server"
+stop_module auth-server "auth-server"
 stop_module config-server "config-server"
 
 echo "Listo."

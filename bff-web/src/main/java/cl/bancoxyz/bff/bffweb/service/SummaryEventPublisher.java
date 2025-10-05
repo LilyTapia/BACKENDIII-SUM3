@@ -30,8 +30,10 @@ public class SummaryEventPublisher {
         .build();
     kafkaTemplate.send(topic, accountId, event).whenComplete((result, ex) -> {
       if (ex != null) {
+        // Si algo falla queremos dejar un rastro claro con el identificador del request
         log.error("Error publicando evento async {}", requestId, ex);
       } else if (result != null) {
+        // Confirmamos la publicación con la partición asignada, útil para auditoría
         log.info("Evento async {} enviado a {}@partition {}", requestId, topic,
             result.getRecordMetadata().partition());
       }

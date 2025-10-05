@@ -18,7 +18,7 @@ public class ApiController {
   }
 
   @GetMapping("/accounts/{accountId}/transactions")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.atm.read')")
   public PageDto<TransactionSlimDto> transactions(@PathVariable("accountId") String accountId,
                                                   @RequestParam(name = "from", required = false) String from,
                                                   @RequestParam(name = "to", required = false) String to,
@@ -34,20 +34,20 @@ public class ApiController {
   }
 
   @GetMapping("/accounts/{accountId}/interests")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.atm.read')")
   public List<InterestDTO> interests(@PathVariable("accountId") String accountId,
                                      @RequestParam(name = "month", required = false) Integer month) {
     return service.interests(accountId, month);
   }
 
   @GetMapping("/accounts/{accountId}/annual")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.atm.read')")
   public List<AnnualAccountDTO> annual(@PathVariable("accountId") String accountId,
                                        @RequestParam(name = "year", required = false) String year) {
     return service.annual(accountId, year);
   }
 
   @GetMapping("/admin/metrics")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.atm.admin')")
   public String metrics() { return "solo admin"; }
 }

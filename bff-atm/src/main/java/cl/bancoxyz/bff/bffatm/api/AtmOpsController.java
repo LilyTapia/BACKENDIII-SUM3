@@ -19,7 +19,7 @@ public class AtmOpsController {
   }
 
   @PostMapping("/login")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.atm.write')")
   public Map<String, String> login(@RequestHeader("X-CARD") String card, @RequestHeader("X-PIN") String pin) {
     // In real life validate card+pin; here always issue a token
     String token = tokens.issueToken(card);
@@ -27,7 +27,7 @@ public class AtmOpsController {
   }
 
   @PostMapping("/withdraw")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.atm.write')")
   public ResponseEntity<?> withdraw(@RequestHeader("X-ATM-TOKEN") String token,
                                     @RequestParam String accountId,
                                     @RequestParam double amount,
@@ -42,7 +42,7 @@ public class AtmOpsController {
   }
 
   @GetMapping("/balance")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasAuthority('SCOPE_bff.atm.read')")
   public ResponseEntity<?> balance(@RequestHeader("X-ATM-TOKEN") String token, @RequestParam String accountId) {
     if (!tokens.isValid(token)) {
       return ResponseEntity.status(401).body(Map.of("error", "invalid_token"));

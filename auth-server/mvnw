@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "Wrapper minimal; using local mvn if present."; exec mvn "$@"
